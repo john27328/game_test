@@ -85,3 +85,11 @@ void Game::stepCharacter()
 {
 
 }
+
+void Game::pathCreate(int x, int y, int d)
+{
+    for (int i = 1; i <= 4; i++)
+    {
+
+    }
+}
