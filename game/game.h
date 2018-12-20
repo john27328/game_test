@@ -5,8 +5,8 @@
 #include <QList>
 #include "unit.h"
 #include <QDebug>
-#define N_ROOM_X 40
-#define N_ROOM_Y 10
+#define N_ROOM_X 30
+#define N_ROOM_Y 30
 enum {SPACE, CHARACTER, PIT, WALL, GUARD, FIREBALL};
 
 using namespace std;

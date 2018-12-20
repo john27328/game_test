@@ -119,7 +119,6 @@ QList<Unit> Game::pathCreate(int x, int y)
 //        qDebug()<<"****";
         for(auto p: pathList)
         {
-            int direction = p.last().direction;
             int x0 = p.last().x;
             int y0 = p.last().y;
 //            qDebug()<<x0 <<y0;

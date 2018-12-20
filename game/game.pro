@@ -27,20 +27,20 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
-    screen.cpp \
     game.cpp \
     unit.cpp
 
 HEADERS += \
         widget.h \
-    screen.h \
     game.h \
     unit.h
 
-FORMS += \
-        widget.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    sprites.qrc

@@ -2,6 +2,9 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QGridLayout>
+#include <QLabel>
+#include "game.h"
 
 namespace Ui {
 class Widget;
