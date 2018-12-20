@@ -14,7 +14,12 @@ int main(int argc, char *argv[])
     game.createGame();
     game.updateRoom();
     game.printRoom();
-    game.stepDangers();
-    game.updateRoom();
-    game.printRoom();
+//    game.stepDangers();
+//    game.updateRoom();
+//    game.printRoom();
+    auto path = game.pathCreate(8,1);
+    for(auto p: path)
+    {
+        qDebug()<<p.x<<p.y<<p.direction;
+    }
 }

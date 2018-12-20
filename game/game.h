@@ -20,6 +20,7 @@ private:
     QList <Unit *> dangers;
     Unit *character;
     QList <int> path;
+    void step(Unit *u);
 public:
     void clearRoom();
     void printRoom();
@@ -28,7 +29,7 @@ public:
     void updateRoom();
     void stepDangers();
     void stepCharacter();
-    void pathCreate(int x, int y, int d);
+    QList<Unit> pathCreate(int x, int y);
 
 };
 
