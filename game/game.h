@@ -6,7 +6,7 @@
 #include "unit.h"
 #include <QDebug>
 #define N_ROOM_X 30
-#define N_ROOM_Y 30
+#define N_ROOM_Y 10
 enum {SPACE, CHARACTER, PIT, WALL, GUARD, FIREBALL};
 
 using namespace std;
@@ -19,8 +19,8 @@ private:
     int room[N_ROOM_X][N_ROOM_Y];
     QList <Unit *> dangers;
     Unit *character;
-    QList <int> path;
-    void step(Unit *u);
+    void stepUnit(Unit *u);
+    QList<Unit> path;
 public:
     void clearRoom();
     void printRoom();
@@ -29,7 +29,9 @@ public:
     void updateRoom();
     void stepDangers();
     void stepCharacter();
-    QList<Unit> pathCreate(int x, int y);
+    void pathCreate(int x, int y);
+    void printPath();
+    void step();
 
 };
 

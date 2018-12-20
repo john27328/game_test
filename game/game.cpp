@@ -6,7 +6,7 @@ Game::Game()
 
 }
 
-void Game::step(Unit *u)
+void Game::stepUnit(Unit *u)
 {
     switch (u->direction) {
     case UP:
@@ -41,6 +41,7 @@ void Game::printRoom()
             cout << room[i][j];
         cout <<endl;
     }
+    cout << endl;
 }
 
 void Game::createGame()
@@ -81,11 +82,10 @@ void Game::updateRoom()
 
 void Game::stepDangers()
 {
-qDebug() <<0;
     QMutableListIterator<Unit *> i(dangers);
     while (i.hasNext()) {
         i.next();
-        step(i.value());
+        stepUnit(i.value());
         if (room0[i.value()->x][i.value()->y] == WALL )
             i.remove();
     }
@@ -93,15 +93,25 @@ qDebug() <<0;
 
 void Game::stepCharacter()
 {
-
+    if(path.isEmpty())
+    {
+        qDebug()<<"не двигается";
+        character->direction = STILL;
+    }
+    else {
+        auto tmp = path.takeFirst();
+        qDebug() << "stepChar" << tmp.x << tmp.y;
+        character->x = tmp.x;
+        character->y = tmp.y;
+        character->direction = tmp.direction;
+    }
 }
 
-QList<Unit> Game::pathCreate(int x, int y)
+void Game::pathCreate(int x, int y)
 {
     bool stop = 0;
     QList<QList<Unit>> pathList;
     QList<Unit> start;
-    QList<Unit> path;
     start << *character;
     pathList << start;
     int roomPath[N_ROOM_X][N_ROOM_Y];
@@ -127,7 +137,7 @@ QList<Unit> Game::pathCreate(int x, int y)
 
                 QList<Unit> temp = p;
                 Unit st(CHARACTER,x0,y0,d);
-                step(&st);
+                stepUnit(&st);
                 if (roomPath[st.x][st.y] != PIT && roomPath[st.x][st.y] != WALL)
                 {
                     temp << st;
@@ -135,6 +145,7 @@ QList<Unit> Game::pathCreate(int x, int y)
                     roomPath[st.x][st.y] = PIT;
                     if (st.x == x && st.y == y)
                     {
+                        temp.removeFirst();
                         path = temp;
                         stop = 1;
                         break;
@@ -147,5 +158,19 @@ QList<Unit> Game::pathCreate(int x, int y)
         }
         pathList = pathListNext;
     }
-    return path;
+}
+
+void Game::printPath()
+{
+    for(auto p: path)
+    {
+        qDebug()<<p.x<<p.y<<p.direction;
+    }
+}
+
+void Game::step()
+{
+    stepDangers();
+    stepCharacter();
+    updateRoom();
 }
