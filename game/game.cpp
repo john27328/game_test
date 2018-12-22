@@ -96,7 +96,7 @@ void Game::createGame()
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
         {
-            if (i > 3 && j>3)
+            if (i > 3 || j > 3)
                 if (rand()%99 <= GUN_DENSITY) dangers.append(new Unit (GUARD, i,j, 1 + (rand()%4)));
         }
 
