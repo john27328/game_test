@@ -7,3 +7,9 @@ Unit::Unit(int tipeU, int xU, int yU, int directionU)
     y = yU;
     direction = directionU;
 }
+
+
+Gun::Gun(int x, int y, int direction, int phaseU): Unit(GUN, x, y, direction)
+{
+    phase = phaseU;
+}

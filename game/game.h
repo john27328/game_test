@@ -7,7 +7,8 @@
 #include <QDebug>
 #define N_ROOM_X 30
 #define N_ROOM_Y 30
-enum {SPACE, CHARACTER, PIT, WALL, GUARD, FIREBALL, GUN};
+#define GUN_DENSITY 10
+#define GUNS_RATE 35
 
 using namespace std;
 class Game
@@ -18,6 +19,7 @@ private:
     int room0[N_ROOM_X][N_ROOM_Y];
     int room[N_ROOM_X][N_ROOM_Y];
     QList <Unit *> dangers;
+    QList <Gun *> guns;
     Unit *character;
     void stepUnit(Unit *u);
     QList<Unit> path;

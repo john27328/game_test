@@ -11,15 +11,19 @@ void Game::stepUnit(Unit *u)
     switch (u->direction) {
     case UP:
         u->y++;
+        if (u->tipe == GUARD) u->direction = DOWN;
         break;
     case DOWN:
         u->y--;
+        if (u->tipe == GUARD) u->direction = UP;
         break;
     case LEFT:
         u->x--;
+        if (u->tipe == GUARD) u->direction = RIGHT;
         break;
     case RIGHT:
         u->x++;
+        if (u->tipe == GUARD) u->direction = LEFT;
         break;
     case UP_LEFT:
         u->x--;
@@ -45,6 +49,8 @@ void Game::stepUnit(Unit *u)
 
 void Game::clearRoom()
 {
+    guns.clear();
+    dangers.clear();
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
             room0[i][j] = 0;
@@ -64,10 +70,17 @@ void Game::printRoom()
 void Game::createGame()
 {
     clearRoom();
-    for(int i = 0; i < N_ROOM_X; i++)
-        room0[i][0] = room0[i][N_ROOM_Y - 1] = WALL;
-    for(int j = 0; j < N_ROOM_Y; j++)
-        room0[0][j] = room0[N_ROOM_X - 1][j] = WALL;
+    srand(time(NULL));
+    for(int i = 0; i < N_ROOM_X; i++){
+        room0[i][0] = room0[i][N_ROOM_Y - 1] = WALL; //рисую стены
+        if (rand()%99 < GUN_DENSITY) guns.append(new Gun (i, 0, UP, rand()%GUNS_RATE)); // ставлю пушки
+        if (rand()%99 < GUN_DENSITY) guns.append(new Gun (i, N_ROOM_Y - 1, DOWN, rand()%GUNS_RATE)); // ставлю пушки
+    }
+    for(int j = 0; j < N_ROOM_Y; j++){
+        room0[0][j] = room0[N_ROOM_X - 1][j] = WALL; //рисую стены
+        if (rand()%99 <= GUN_DENSITY) guns.append(new Gun (0, j, RIGHT, rand()%GUNS_RATE)); // ставлю пушки
+        if (rand()%99 <= GUN_DENSITY) guns.append(new Gun (N_ROOM_X - 1, j, LEFT, rand()%GUNS_RATE)); // ставлю пушки
+    }
 //test
     for (int i = 1; i < 5; i++)
         room0[6][i] = PIT;
@@ -94,6 +107,8 @@ void Game::updateRoom()
             room[i][j] = room0[i][j];
     for (Unit *u:dangers)
         room[u->x][u->y] = u->tipe;
+    for (auto u:guns)
+        room[u->x][u->y] = GUN;
     room[character->x][character->y] = CHARACTER;
 
 }
@@ -106,6 +121,15 @@ void Game::stepDangers()
         stepUnit(i.value());
         if (room0[i.value()->x][i.value()->y] == WALL )
             i.remove();
+    }
+
+    for (auto u : guns)
+    {
+        u->phase++;
+        if (u->phase == GUNS_RATE){
+            u->phase = 0;
+            dangers.append(new Unit(FIREBALL,u->x,u->y, u->direction));
+        }
     }
 }
 
