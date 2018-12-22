@@ -85,16 +85,21 @@ void Game::createGame()
         if (rand()%99 <= GUN_DENSITY) guns.append(new Gun (N_ROOM_X - 1, j, LEFT, rand()%GUNS_RATE)); // ставлю пушки
     }
 //test
-    for (int i = 1; i < 5; i++)
-        room0[6][i] = PIT;
-    for (int i = 2; i < 7; i++)
-        room0[i][4] = PIT;
+    //    for (int i = 1; i < 5; i++)
+    //        room0[6][i] = PIT;
+    //    for (int i = 2; i < 7; i++)
+    //        room0[i][4] = PIT;
 
     character = new Unit(CHARACTER, 1,1,0);
     path.clear();
     room0[N_ROOM_X - 2][N_ROOM_Y - 2] = FINISH;
-    dangers.append(new Unit (GUARD, 3,3, LEFT));
-    dangers.append(new Unit (GUARD, 1,5, LEFT));
+    for(int i = 0; i < N_ROOM_X; i++)
+        for(int j = 0; j < N_ROOM_Y; j++)
+        {
+            if (i > 3 && j>3)
+                if (rand()%99 <= GUN_DENSITY) dangers.append(new Unit (GUARD, i,j, 1 + (rand()%4)));
+        }
+
     updateRoom();
 
 }
@@ -151,12 +156,12 @@ void Game::stepCharacter()
 {
     if(path.isEmpty())
     {
-        qDebug()<<"не двигается";
+//        qDebug()<<"не двигается";
         character->direction = STILL;
     }
     else {
         auto tmp = path.takeFirst();
-        qDebug() << "stepChar" << tmp.x << tmp.y;
+//        qDebug() << "stepChar" << tmp.x << tmp.y;
         character->x = tmp.x;
         character->y = tmp.y;
         character->direction = tmp.direction;
@@ -193,7 +198,7 @@ void Game::pathCreate(int x, int y)
                 //            qDebug()<<x0 <<y0;
                 for (int d = 1; d <=END_DIR - 1; d++)
                 {
-                    qDebug()<<d;
+//                    /*qDebug*/()<<d;
                     QList<Unit> temp = p;
                     Unit st(CHARACTER,x0,y0,d);
                     stepUnit(&st);
@@ -241,7 +246,7 @@ int Game::getRoom(int x, int y)
 
 void Game::setRoom(int x, int y)
 {
-    qDebug() << room0[x][y];
+//    qDebug() << room0[x][y];
     if (room0[x][y] == SPACE)
         room0[x][y] = PIT;
     else if (room0[x][y] == PIT)

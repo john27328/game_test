@@ -9,6 +9,7 @@
 #define N_ROOM_Y 30
 #define GUN_DENSITY 10
 #define GUNS_RATE 35
+#define GUARD_DENSITY 10
 enum {PLAY, DEAD, WIN};
 
 using namespace std;
