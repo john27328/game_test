@@ -9,6 +9,7 @@
 #define N_ROOM_Y 30
 #define GUN_DENSITY 10
 #define GUNS_RATE 35
+enum {PLAY, DEAD, WIN};
 
 using namespace std;
 class Game
@@ -38,6 +39,7 @@ public:
     int getRoom(int x, int y);
     void setRoom(int x, int y);
     int xTerminal, yTerminal;
+    int gameStatus;
 
 };
 

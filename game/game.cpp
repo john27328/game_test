@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    clearRoom();
+    createGame();
 
 }
 
@@ -30,7 +30,6 @@ void Game::stepUnit(Unit *u)
         u->y++;
         break;
     case UP_RIGHT:
-        qDebug()<<"UP_RIGHT";
         u->x++;
         u->y++;
         break;
@@ -45,6 +44,9 @@ void Game::stepUnit(Unit *u)
     default:
         break;
     }
+
+
+
 }
 
 void Game::clearRoom()
@@ -53,7 +55,7 @@ void Game::clearRoom()
     dangers.clear();
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
-            room0[i][j] = 0;
+            room0[i][j] = room[i][j] = 0;
 }
 
 void Game::printRoom()
@@ -70,6 +72,7 @@ void Game::printRoom()
 void Game::createGame()
 {
     clearRoom();
+    gameStatus = PLAY;
     srand(time(NULL));
     for(int i = 0; i < N_ROOM_X; i++){
         room0[i][0] = room0[i][N_ROOM_Y - 1] = WALL; //рисую стены
@@ -88,9 +91,10 @@ void Game::createGame()
         room0[i][4] = PIT;
 
     character = new Unit(CHARACTER, 1,1,0);
+    path.clear();
+    room0[N_ROOM_X - 2][N_ROOM_Y - 2] = FINISH;
     dangers.append(new Unit (GUARD, 3,3, LEFT));
     dangers.append(new Unit (GUARD, 1,5, LEFT));
-    dangers.append(new Unit (FIREBALL, 5,3, LEFT));
     updateRoom();
 
 }
@@ -109,7 +113,17 @@ void Game::updateRoom()
         room[u->x][u->y] = u->tipe;
     for (auto u:guns)
         room[u->x][u->y] = GUN;
-    room[character->x][character->y] = CHARACTER;
+    if (room[character->x][character->y] == FIREBALL || room[character->x][character->y] == GUARD)
+    {
+        gameStatus = DEAD;
+        qDebug()<<"game over";
+    }
+    else if(room[character->x][character->y] == FINISH){
+        gameStatus = WIN;
+        qDebug()<<"win";
+    }
+    else
+        room[character->x][character->y] = CHARACTER;
 
 }
 
@@ -162,46 +176,47 @@ void Game::pathCreate(int x, int y)
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
             roomPath[i][j] = room0[i][j];
-    while (!stop)
-    {
-        QList<QList<Unit>> pathListNext;
-        if (pathList.isEmpty())
+    if (character->x != x || character->y != y)
+        while (!stop)
         {
-            stop = 1;
-            qDebug()<< "пути нет";
-        }
-//        qDebug()<<"****";
-        for(auto p: pathList)
-        {
-            int x0 = p.last().x;
-            int y0 = p.last().y;
-//            qDebug()<<x0 <<y0;
-            for (int d = 1; d <=END_DIR - 1; d++)
+            QList<QList<Unit>> pathListNext;
+            if (pathList.isEmpty())
             {
-                qDebug()<<d;
-                QList<Unit> temp = p;
-                Unit st(CHARACTER,x0,y0,d);
-                stepUnit(&st);
-                if (roomPath[st.x][st.y] != PIT && roomPath[st.x][st.y] != WALL)
+                stop = 1;
+                qDebug()<< "пути нет";
+            }
+            //        qDebug()<<"****";
+            for(auto p: pathList)
+            {
+                int x0 = p.last().x;
+                int y0 = p.last().y;
+                //            qDebug()<<x0 <<y0;
+                for (int d = 1; d <=END_DIR - 1; d++)
                 {
-                    temp << st;
-                    pathListNext << temp;
-                    roomPath[st.x][st.y] = PIT;
-                    if (st.x == x && st.y == y)
+                    qDebug()<<d;
+                    QList<Unit> temp = p;
+                    Unit st(CHARACTER,x0,y0,d);
+                    stepUnit(&st);
+                    if (roomPath[st.x][st.y] != PIT && roomPath[st.x][st.y] != WALL)
                     {
-                        temp.removeFirst();
-                        path = temp;
-                        stop = 1;
-                        break;
+                        temp << st;
+                        pathListNext << temp;
+                        roomPath[st.x][st.y] = PIT;
+                        if (st.x == x && st.y == y)
+                        {
+                            temp.removeFirst();
+                            path = temp;
+                            stop = 1;
+                            break;
+                        }
                     }
+
+
                 }
 
-
             }
-
+            pathList = pathListNext;
         }
-        pathList = pathListNext;
-    }
 }
 
 void Game::printPath()

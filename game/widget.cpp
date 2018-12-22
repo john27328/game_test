@@ -1,21 +1,23 @@
 #include "widget.h"
-#include "ui_widget.h"
 
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent)
 {
-    setMinimumSize(200, 200);
-    setMaximumSize(1024,720);
+
     vl = new QVBoxLayout(this);
     screen = new Screen;
+    gameTxt = new QLabel;
     pbStart = new QPushButton("start");
     pbStop = new QPushButton("stop");
     pbl = new QHBoxLayout;
     vl->addWidget(screen);
     vl->addLayout(pbl);
+    pbl->addWidget(gameTxt);
     pbl->addWidget(pbStart);
     pbl->addWidget(pbStop);
+
+
     connect(pbStart, SIGNAL(clicked()), this, SLOT(startT()));
     connect(pbStop, SIGNAL(clicked()), this, SLOT(stopT()));
 }

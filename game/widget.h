@@ -21,6 +21,7 @@
 #include <QCheckBox>
 #include "screen.h"
 
+
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -28,15 +29,9 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-//    QSpinBox *NSB;
-//    QSpinBox *MSB;
-//    QSpinBox *WSB;
-//    QSpinBox *PSB;
-//    QSpinBox *TSB;
-//    QLabel *NL;
-//    QLabel *ML;
-//    QLabel *WL;
-//    QLabel *PL;
+
+    QLabel *gameTxt;
+
     QHBoxLayout *hl;
     QPushButton *pbStart;
     QPushButton *pbStop;

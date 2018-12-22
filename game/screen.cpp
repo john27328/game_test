@@ -4,6 +4,7 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
 {
     t=new QTimer;
     connect(t,SIGNAL(timeout()),this,SLOT(step()));
+    setMinimumSize(1024,768);
 }
 
 void Screen::paintEvent(QPaintEvent *)
@@ -12,6 +13,7 @@ void Screen::paintEvent(QPaintEvent *)
     QPen pen(Qt::white);
     QBrush brush(Qt::white);
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
+
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
         {
@@ -44,6 +46,10 @@ void Screen::paintEvent(QPaintEvent *)
                 pen.setColor(Qt::darkRed);
                 brush.setColor(Qt::darkRed);
                 break;
+            case FINISH:
+                pen.setColor(Qt::darkGreen);
+                brush.setColor(Qt::darkGreen);
+                break;
             default:
                 break;
             }
@@ -52,7 +58,14 @@ void Screen::paintEvent(QPaintEvent *)
             paint.drawRect(QRect(wr*i,hr*j,wr,hr));
         }
 
-
+    if (game.gameStatus == WIN)
+    {
+        stopT();
+    }
+    else if (game.gameStatus == DEAD)
+    {
+        stopT();
+    }
 
 
 }
@@ -61,18 +74,20 @@ void Screen::startT()
 {
     qDebug()<<"start";
     t->start(100);
-    game.createGame();
-    game.pathCreate(8,1);
+    game.pathCreate(0,0);
+
 }
 
 void Screen::stopT()
 {
     t->stop();
+    game.createGame();
+    update();
 }
 
 void Screen::step()
 {
-    qDebug()<<"step";
+    //    qDebug()<<"step";
     game.step();
     update();
 }
