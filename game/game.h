@@ -7,7 +7,7 @@
 #include <QDebug>
 #define N_ROOM_X 30
 #define N_ROOM_Y 30
-enum {SPACE, CHARACTER, PIT, WALL, GUARD, FIREBALL};
+enum {SPACE, CHARACTER, PIT, WALL, GUARD, FIREBALL, GUN};
 
 using namespace std;
 class Game
@@ -21,6 +21,7 @@ private:
     Unit *character;
     void stepUnit(Unit *u);
     QList<Unit> path;
+
 public:
     void clearRoom();
     void printRoom();
@@ -33,6 +34,8 @@ public:
     void printPath();
     void step();
     int getRoom(int x, int y);
+    void setRoom(int x, int y);
+    int xTerminal, yTerminal;
 
 };
 

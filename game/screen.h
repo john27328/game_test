@@ -26,6 +26,8 @@ public slots:
     void startT();
     void stopT();
     void step();
+protected:
+    virtual void mousePressEvent  (QMouseEvent* pe);
 };
 
 #endif // SCREEN_H

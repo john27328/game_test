@@ -9,8 +9,8 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
 void Screen::paintEvent(QPaintEvent *)
 {
     QPainter paint(this);
-    QPen pen;
-    QBrush brush;
+    QPen pen(Qt::white);
+    QBrush brush(Qt::white);
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
@@ -40,6 +40,10 @@ void Screen::paintEvent(QPaintEvent *)
                 pen.setColor(Qt::red);
                 brush.setColor(Qt::red);
                 break;
+            case GUN:
+                pen.setColor(Qt::darkRed);
+                brush.setColor(Qt::darkRed);
+                break;
             default:
                 break;
             }
@@ -56,8 +60,9 @@ void Screen::paintEvent(QPaintEvent *)
 void Screen::startT()
 {
     qDebug()<<"start";
-    t->start(500);
+    t->start(100);
     game.createGame();
+    game.pathCreate(8,1);
 }
 
 void Screen::stopT()
@@ -70,4 +75,29 @@ void Screen::step()
     qDebug()<<"step";
     game.step();
     update();
+}
+
+void Screen::mousePressEvent(QMouseEvent *pe)
+{
+    double xm = pe->x(), ym=pe->y();
+    double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
+    double x = int(xm/wr);
+    double y = int(ym/hr);
+    qDebug()<<"mousePressEvent"<<x<<y;
+
+    if (pe->buttons() & Qt::RightButton)
+    {
+        qDebug()<<"RightButton";
+        game.setRoom(x,y);
+        game.pathCreate(game.xTerminal,game.yTerminal);
+        update();
+    }
+
+    if (pe->buttons() & Qt::LeftButton)
+    {
+        qDebug()<<"LeftButton";
+        game.pathCreate(x,y);
+
+        update();
+    }
 }

@@ -4,11 +4,7 @@
 #define N_ROOM_X 40
 #define N_ROOM_Y 10
 
-#define STILL 0
-#define UP 1
-#define DOWN 2
-#define LEFT 3
-#define RIGHT 4
+enum {STILL, UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, END_DIR};
 
 class Unit
 {
