@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         widget.cpp \
     game.cpp \
-    unit.cpp
+    unit.cpp \
+    screen.cpp
 
 HEADERS += \
         widget.h \
     game.h \
-    unit.h
+    unit.h \
+    screen.h
 
 FORMS +=
 

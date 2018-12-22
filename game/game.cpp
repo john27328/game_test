@@ -174,3 +174,8 @@ void Game::step()
     stepCharacter();
     updateRoom();
 }
+
+int Game::getRoom(int x, int y)
+{
+    return room[x][y];
+}
