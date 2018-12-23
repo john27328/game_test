@@ -42,8 +42,6 @@ void Screen::paintEvent(QPaintEvent *)
 //    QPen pen(Qt::white);
 //    QBrush brush(Qt::white);
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
-    paint.scale(.5, .1);
-    paint.rotate(45);
 
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
