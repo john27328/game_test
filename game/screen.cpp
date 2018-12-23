@@ -44,23 +44,18 @@ void Screen::paintEvent(QPaintEvent *)
 //    QBrush brush(Qt::white);
 
 
-    double w=width(), h=height(), s;
+    double w=width(), h=height(), sx, sy;
+    double wr=w/ (N_ROOM_X+1), hr=h/(N_ROOM_Y+1);
+
     paint.translate(w/2,0);
-    if (w < h) {
-        s = h/w;
-        h = w = w / 1.41;
-        paint.scale(1,s);
-    }
-    else {
-        s = w/h;
-        w = h = h / 1.41;
-        paint.scale(s,1);
-    }
+        sx = 1/1.41;
+        sy = 1/1.41;
+    paint.scale(sx,sy);
+
     paint.rotate(45);
     QMatrix rot;
     rot.rotate(-45);
 
-    double wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
 
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
@@ -206,10 +201,22 @@ void Screen::step()
 void Screen::mousePressEvent(QMouseEvent *pe)
 {
     double xm = pe->x(), ym=pe->y();
+
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
-    double x = int(xm/wr);
-    double y = int(ym/hr);
-    qDebug()<<"mousePressEvent"<<x<<y;
+    double sx, sy;
+    if (w < h) {
+        sy = h/w;
+        sx = 1;
+    }
+    else {
+        sx = w/h;
+        sy = 1;
+    }
+    double x0 = (xm - ym) / 1.41 / sy;
+    double y0 = (xm + ym) / 1.41 / sy;
+    double x = int(x0/wr);
+    double y = int(y0/hr);
+    qDebug()<<"mousePressEvent"<<x<<y<<xm<<ym<<x0<<y0;
 
     if (pe->buttons() & Qt::RightButton)
     {
