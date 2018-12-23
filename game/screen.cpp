@@ -4,7 +4,7 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
 {
     t=new QTimer;
     connect(t,SIGNAL(timeout()),this,SLOT(step()));
-    setMinimumSize(1024,768);
+    //setMinimumSize(1024,768);
     imgCharUp.load(":/img/charUp.png");
     imgCharDown.load(":/img/charDown.png");
     imgCharLeft.load(":/img/charLeft.png");
@@ -45,14 +45,27 @@ void Screen::paintEvent(QPaintEvent *)
 
 
     double w=width(), h=height(), sx, sy;
-    double wr=w/ (N_ROOM_X+1), hr=h/(N_ROOM_Y+1);
+    double wr=w/ (N_ROOM_X), hr=h/(N_ROOM_Y);
 
     paint.translate(w/2,0);
-        sx = 1/1.41;
-        sy = 1/1.41;
-    paint.scale(sx,sy);
 
-    paint.rotate(45);
+
+    if (w <= h)
+    {
+        sx = 1/1.41421356237;
+        sy = 1/1.41421356237 * h / w;
+        paint.scale(sx,sy);
+        paint.rotate(45);
+        paint.scale(1, w/h);
+    }
+    if (w > h)
+    {
+        sx = 1/1.41421356237 * w/h;
+        sy = 1/1.41421356237;
+        paint.scale(sx,sy);
+        paint.rotate(45);
+        paint.scale(h/w, 1);
+    }
     QMatrix rot;
     rot.rotate(-45);
 
@@ -201,6 +214,7 @@ void Screen::step()
 void Screen::mousePressEvent(QMouseEvent *pe)
 {
     double xm = pe->x(), ym=pe->y();
+    auto q = pe->localPos();
 
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
     double sx, sy;
@@ -212,8 +226,8 @@ void Screen::mousePressEvent(QMouseEvent *pe)
         sx = w/h;
         sy = 1;
     }
-    double x0 = (xm - ym) / 1.41 / sy;
-    double y0 = (xm + ym) / 1.41 / sy;
+    double x0 = (xm - ym) / 1.41421356237 / sy;
+    double y0 = (xm + ym) / 1.41421356237 / sy;
     double x = int(x0/wr);
     double y = int(y0/hr);
     qDebug()<<"mousePressEvent"<<x<<y<<xm<<ym<<x0<<y0;
