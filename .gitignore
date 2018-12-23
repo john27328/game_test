@@ -13,3 +13,4 @@ build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/usersjohnappdatalocaltemptmpy8kq
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Release/release/game.exe
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/game.exe
 *.user
+*.user

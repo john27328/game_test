@@ -214,37 +214,50 @@ void Screen::step()
 void Screen::mousePressEvent(QMouseEvent *pe)
 {
     double xm = pe->x(), ym=pe->y();
-    auto q = pe->localPos();
 
     double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
-    double sx, sy;
-    if (w < h) {
-        sy = h/w;
-        sx = 1;
-    }
-    else {
-        sx = w/h;
-        sy = 1;
-    }
-    double x0 = (xm - ym) / 1.41421356237 / sy;
-    double y0 = (xm + ym) / 1.41421356237 / sy;
-    double x = int(x0/wr);
-    double y = int(y0/hr);
-    qDebug()<<"mousePressEvent"<<x<<y<<xm<<ym<<x0<<y0;
+    double x;
+    double y;
+    double sx=1.41421356237 *h/w, sy=1.41421356237;
 
-    if (pe->buttons() & Qt::RightButton)
+
+    xm-=w/2;
+
+    xm*=sx;
+    ym*=sy;
+
+    xm*=1/1.41421356237;
+    ym*=1/1.41421356237;
+    double _xm, _ym;
+    _ym=-xm+ym;
+    _xm=xm+ym;
+    xm=_xm;
+    ym=_ym;
+
+    xm*=w/h;
+
+
+    x=int(xm/wr);
+    y=int(ym/hr);
+    qDebug()<<"mousePressEvent"<<x<<y;
+
+    if (x >= 0 && y >= 0 && x < N_ROOM_X && y < N_ROOM_Y)
     {
-        qDebug()<<"RightButton";
-        game.setRoom(x,y);
-        game.pathCreate(game.xTerminal,game.yTerminal);
-        update();
-    }
+        if (pe->buttons() & Qt::RightButton)
+        {
 
-    if (pe->buttons() & Qt::LeftButton)
-    {
-        qDebug()<<"LeftButton";
-        game.pathCreate(x,y);
+            qDebug()<<"RightButton";
+            game.setRoom(x,y);
+            game.pathCreate(game.xTerminal,game.yTerminal);
+            update();
+        }
 
-        update();
+        if (pe->buttons() & Qt::LeftButton)
+        {
+            qDebug()<<"LeftButton";
+            game.pathCreate(x,y);
+
+            update();
+        }
     }
 }
