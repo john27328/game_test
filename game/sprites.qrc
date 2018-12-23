@@ -1,5 +1,34 @@
 <RCC>
-    <qresource prefix="/img">
-        <file>img/wag.PNG</file>
+    <qresource prefix="/img"/>
+    <qresource prefix="/">
+        <file>img/charDown.png</file>
+        <file>img/charDownLeft.png</file>
+        <file>img/charDownRight.png</file>
+        <file>img/charLeft.png</file>
+        <file>img/charRight.png</file>
+        <file>img/charUp.png</file>
+        <file>img/charUpRight.png</file>
+        <file>img/fireBoll.png</file>
+        <file>img/guardDown.png</file>
+        <file>img/guardLeft.png</file>
+        <file>img/guardRight.png</file>
+        <file>img/guardUp.png</file>
+        <file>img/gunDown.png</file>
+        <file>img/gunLeft.png</file>
+        <file>img/gunRight.png</file>
+        <file>img/gunUp.png</file>
+        <file>img/space.png</file>
+        <file>img/wallDown.png</file>
+        <file>img/wallDownLeft.png</file>
+        <file>img/wallDownRight.png</file>
+        <file>img/wallLeft.png</file>
+        <file>img/wallRight.png</file>
+        <file>img/wallUp.png</file>
+        <file>img/wallUpLeft.png</file>
+        <file>img/wallUpRight.png.png</file>
+        <file>img/win.png</file>
+        <file>img/charUpLeft.png</file>
+        <file>img/PIT.png</file>
+        <file>img/impty.png</file>
     </qresource>
 </RCC>

@@ -5,12 +5,13 @@
 #include <QList>
 #include "unit.h"
 #include <QDebug>
-#define N_ROOM_X 30
+#define TIME 300
+#define N_ROOM_X 50
 #define N_ROOM_Y 30
 #define GUN_DENSITY 10
-#define GUNS_RATE 35
-#define GUARD_DENSITY 10
-enum {PLAY, DEAD, WIN};
+#define GUNS_RATE 20
+#define GUARD_DENSITY 5
+enum {PLAY, DEAD, WIN, GOING, BRICK };
 
 using namespace std;
 class Game
@@ -20,6 +21,7 @@ public:
 private:
     int room0[N_ROOM_X][N_ROOM_Y];
     int room[N_ROOM_X][N_ROOM_Y];
+    int roomDir[N_ROOM_X][N_ROOM_Y];
     QList <Unit *> dangers;
     QList <Gun *> guns;
     Unit *character;
@@ -38,6 +40,7 @@ public:
     void printPath();
     void step();
     int getRoom(int x, int y);
+    int getRoomDir(int x, int y);
     void setRoom(int x, int y);
     int xTerminal, yTerminal;
     int gameStatus;

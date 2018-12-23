@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include "screen.h"
+#include <QLineEdit>
 
 
 class Widget : public QWidget
@@ -30,7 +31,7 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    QLabel *gameTxt;
+    QLineEdit *gameTxt;
 
     QHBoxLayout *hl;
     QPushButton *pbStart;
