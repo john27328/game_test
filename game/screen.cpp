@@ -131,8 +131,8 @@ void Screen::paintEvent(QPaintEvent *)
 //            paint.setPen(pen);
 //            paint.setBrush(brush);
 //            paint.drawRect(QRect(wr*i,hr*j,wr,hr));
-            paint.drawImage(QRect(wr * i,hr * j ,wr,hr),img0);
-            paint.drawImage(QRect(wr * i,hr * j ,wr,hr),img);
+            paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img0);
+            paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img);
         }
 
     if (game.gameStatus == WIN)
