@@ -17,10 +17,10 @@ Widget::Widget(QWidget *parent) :
     pbl->addWidget(pbStart);
     pbl->addWidget(pbStop);
 
-
     connect(pbStart, SIGNAL(clicked()), this, SLOT(startT()));
     connect(pbStop, SIGNAL(clicked()), this, SLOT(stopT()));
     connect(screen, SIGNAL(setTXT(QString)), gameTxt, SLOT(setText(QString)));
+
 }
 
 Widget::~Widget()

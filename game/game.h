@@ -6,8 +6,8 @@
 #include "unit.h"
 #include <QDebug>
 #define TIME 300
-#define N_ROOM_X 50
-#define N_ROOM_Y 30
+#define N_ROOM_X 10
+#define N_ROOM_Y 10
 #define GUN_DENSITY 10
 #define GUNS_RATE 20
 #define GUARD_DENSITY 5

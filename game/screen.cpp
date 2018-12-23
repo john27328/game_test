@@ -34,6 +34,7 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
     imgGUNRight.load(":/img/gunRight.png");
     imgFireBoll.load(":/img/fireBoll.png");
     imgFinish.load(":/img/win.png");
+
 }
 
 void Screen::paintEvent(QPaintEvent *)
@@ -41,7 +42,25 @@ void Screen::paintEvent(QPaintEvent *)
     QPainter paint(this);
 //    QPen pen(Qt::white);
 //    QBrush brush(Qt::white);
-    double w=width(), h=height(), wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
+
+
+    double w=width(), h=height(), s;
+    paint.translate(w/2,0);
+    if (w < h) {
+        s = h/w;
+        h = w = w / 1.41;
+        paint.scale(1,s);
+    }
+    else {
+        s = w/h;
+        w = h = h / 1.41;
+        paint.scale(s,1);
+    }
+    paint.rotate(45);
+    QMatrix rot;
+    rot.rotate(-45);
+
+    double wr=w/N_ROOM_X, hr=h/ N_ROOM_Y;
 
     for(int i = 0; i < N_ROOM_X; i++)
         for(int j = 0; j < N_ROOM_Y; j++)
@@ -67,6 +86,7 @@ void Screen::paintEvent(QPaintEvent *)
                 if (dir == DOWN_LEFT) img = imgCharDownLeft;
                 if (dir == DOWN_RIGHT) img = imgCharDownRight;
                 if (dir == STILL) img = imgCharDown;
+                img = img.transformed(rot);
                 break;
             case PIT:
 //                pen.setColor(Qt::black);
@@ -95,6 +115,7 @@ void Screen::paintEvent(QPaintEvent *)
                 if (dir == DOWN) img = imgGuardDown;
                 if (dir == LEFT) img = imgGuardLeft;
                 if (dir == RIGHT) img = imgGuardRight;
+                img = img.transformed(rot);
                 break;
             case FIREBALL:
 //                pen.setColor(Qt::red);
@@ -132,8 +153,10 @@ void Screen::paintEvent(QPaintEvent *)
 //            paint.setBrush(brush);
 //            paint.drawRect(QRect(wr*i,hr*j,wr,hr));
             paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img0);
+
             paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img);
         }
+
 
     if (game.gameStatus == WIN)
     {
