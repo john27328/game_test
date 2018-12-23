@@ -4,7 +4,7 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
 {
     t=new QTimer;
     connect(t,SIGNAL(timeout()),this,SLOT(step()));
-    //setMinimumSize(1024,768);
+    setMinimumSize(1024,768);
     imgCharUp.load(":/img/charUp.png");
     imgCharDown.load(":/img/charDown.png");
     imgCharLeft.load(":/img/charLeft.png");

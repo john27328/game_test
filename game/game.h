@@ -6,9 +6,9 @@
 #include "unit.h"
 #include <QDebug>
 #define TIME 300
-#define N_ROOM_X 10
-#define N_ROOM_Y 10
-#define GUN_DENSITY 10
+#define N_ROOM_X 20
+#define N_ROOM_Y 20
+#define GUN_DENSITY 15
 #define GUNS_RATE 20
 #define GUARD_DENSITY 5
 enum {PLAY, DEAD, WIN, GOING, BRICK };
