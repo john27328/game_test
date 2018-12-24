@@ -1,6 +1,10 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+/*********************************************************************
+ * Виджет с игровым полем. Отрисовка объектов, обработка кликов мыши *
+ * ******************************************************************/
+
 #include <QWidget>
 #include "game.h"
 #include <QTimer>
@@ -20,6 +24,7 @@ public:
     Game game;
     virtual void paintEvent(QPaintEvent*);
     QTimer *t;
+    // спрайты загружаю при загрузке программы.
     QImage img;
     QImage img0;
     QImage imgCharUp;

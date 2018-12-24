@@ -114,10 +114,6 @@ void Game::createGame()
 
 }
 
-void Game::createROOM()
-{
-
-}
 
 void Game::updateRoom()
 {
@@ -203,6 +199,10 @@ void Game::stepCharacter()
 
 void Game::pathCreate(int x, int y)
 {
+    //шаг за шагом проверяю все возможные сдвиги героя во все стороны,
+    //помечая пройденые клетки как помечанные и запоминая не тупиковые пути.
+    //Когда герой достигает точки назначения прерываю цикл и возвращаю последний путь.
+    //Если не осталось доступных путей, а точка не достигнута, возвращаю пустой путь.
     xTerminal = x; yTerminal = y;
     bool stop = 0;
     QList<QList<Unit>> pathList;

@@ -50,12 +50,3 @@ void Widget::stop()
     pbStart->setEnabled(1);
 }
 
-void Widget::t()
-{
-
-}
-
-void Widget::setCb(int k)
-{
-
-}
