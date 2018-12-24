@@ -5,14 +5,14 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
     t=new QTimer;
     connect(t,SIGNAL(timeout()),this,SLOT(step()));
     setMinimumSize(1024,768);
-    imgCharUp.load(":/img/charUp.png");
-    imgCharDown.load(":/img/charDown.png");
-    imgCharLeft.load(":/img/charLeft.png");
-    imgCharRight.load(":/img/charRight.png");
-    imgCharUpLeft.load(":/img/charUpLeft.png");
-    imgCharUpRight.load(":/img/charUpRight.png");
-    imgCharDownLeft.load(":/img/charDownLeft.png");
-    imgCharDownRight.load(":/img/charDownRight.png");
+    imgCharUp.load(":/img/charUpRight.png");
+    imgCharDown.load(":/img/charDownLeft.png");
+    imgCharLeft.load(":/img/charUpLeft.png");
+    imgCharRight.load(":/img/charDownRight.png");
+    imgCharUpLeft.load(":/img/charUp.png");
+    imgCharUpRight.load(":/img/charRight.png");
+    imgCharDownLeft.load(":/img/charLeft.png");
+    imgCharDownRight.load(":/img/charDown.png");
     imgWallUp.load(":/img/wallUp.png");
     imgWallDown.load(":/img/wallDown.png");
     imgWallLeft.load(":/img/wallLeft.png");
@@ -40,9 +40,8 @@ Screen::Screen(QWidget *parent) : QWidget(parent)
 void Screen::paintEvent(QPaintEvent *)
 {
     QPainter paint(this);
-//    QPen pen(Qt::white);
-//    QBrush brush(Qt::white);
-
+    QPen pen(Qt::white);
+    pen.setWidth(3);
 
     double w=width(), h=height(), sx, sy;
     double wr=w/ (N_ROOM_X), hr=h/(N_ROOM_Y);
@@ -79,28 +78,16 @@ void Screen::paintEvent(QPaintEvent *)
 //                pen.setColor(Qt::white);
 //                brush.setColor(Qt::white);
                 img0 = imgSpace;
-                img = imgImpty;
                 break;
             case CHARACTER:
 //                pen.setColor(Qt::green);
 //                brush.setColor(Qt::green);
                 img0 = imgSpace;
-                if (dir == UP) img = imgCharUp;
-                if (dir == DOWN) img = imgCharDown;
-                if (dir == LEFT) img = imgCharLeft;
-                if (dir == RIGHT) img = imgCharRight;
-                if (dir == UP_LEFT) img = imgCharUpLeft;
-                if (dir == UP_RIGHT) img = imgCharUpRight;
-                if (dir == DOWN_LEFT) img = imgCharDownLeft;
-                if (dir == DOWN_RIGHT) img = imgCharDownRight;
-                if (dir == STILL) img = imgCharDown;
-                img = img.transformed(rot);
                 break;
             case PIT:
 //                pen.setColor(Qt::black);
 //                brush.setColor(Qt::black);
                 img0 = imgSpace;
-                img = imgPIT;
                 break;
             case WALL:
 //                pen.setColor(Qt::gray);
@@ -113,23 +100,16 @@ void Screen::paintEvent(QPaintEvent *)
                 if (dir == UP_RIGHT) img0 = imgWallUpRight;
                 if (dir == DOWN_LEFT) img0 = imgWallDownLeft;
                 if (dir == DOWN_RIGHT) img0 = imgWallDownRight;
-                img = imgImpty;
                 break;
             case GUARD:
 //                pen.setColor(Qt::blue);
 //                brush.setColor(Qt::blue);
                 img0 = imgSpace;
-                if (dir == UP) img = imgGuardUp;
-                if (dir == DOWN) img = imgGuardDown;
-                if (dir == LEFT) img = imgGuardLeft;
-                if (dir == RIGHT) img = imgGuardRight;
-                img = img.transformed(rot);
                 break;
             case FIREBALL:
 //                pen.setColor(Qt::red);
 //                brush.setColor(Qt::red);
                 img0.load(":/img/space.png");
-                img.load(":/img/fireBoll.png");
                 break;
             case GUN:
 //                pen.setColor(Qt::darkRed);
@@ -143,16 +123,11 @@ void Screen::paintEvent(QPaintEvent *)
                 if (dir == DOWN_LEFT) img0 = imgWallDownLeft;
                 if (dir == DOWN_RIGHT) img0 = imgWallDownRight;
 
-                if (dir == UP) img = imgGUNUp;
-                if (dir == DOWN) img = imgGUNDown;
-                if (dir == LEFT) img = imgGUNLeft;
-                if (dir == RIGHT) img = imgGUNRight;
                 break;
             case FINISH:
 //                pen.setColor(Qt::darkGreen);
 //                brush.setColor(Qt::darkGreen);
                 img0 = imgSpace;
-                img = imgFinish;
                 break;
             default:
                 break;
@@ -161,8 +136,97 @@ void Screen::paintEvent(QPaintEvent *)
 //            paint.setBrush(brush);
 //            paint.drawRect(QRect(wr*i,hr*j,wr,hr));
             paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img0);
+        }
 
-            paint.drawImage(QRect(wr * i,hr * j ,wr+1,hr+1),img);
+    for(int i = 0; i < N_ROOM_X; i++)
+        for(int j = 0; j < N_ROOM_Y; j++)
+        {
+            int dir = game.getRoomDir(i,j);
+            switch (game.getRoom(i,j)) {
+            case SPACE:
+                pen.setColor(Qt::transparent);
+                img = imgImpty;
+                break;
+            case PIT:
+                pen.setColor(Qt::black);
+                img = imgPIT;
+                break;
+            case WALL:
+                pen.setColor(Qt::transparent);
+                img = imgImpty;
+                break;
+            case FIREBALL:
+                pen.setColor(Qt::red);
+//                brush.setColor(Qt::red);
+                img = imgFireBoll;
+                break;
+            case GUN:
+                pen.setColor(Qt::transparent);
+//                brush.setColor(Qt::darkRed);
+                if (dir == UP) img = imgGUNUp;
+                if (dir == DOWN) img = imgGUNDown;
+                if (dir == LEFT) img = imgGUNLeft;
+                if (dir == RIGHT) img = imgGUNRight;
+                break;
+            case FINISH:
+                pen.setColor(Qt::darkGreen);
+//                brush.setColor(Qt::darkGreen);
+                img = imgFinish;
+                img = img.transformed(rot);
+                break;
+            default:
+                pen.setColor(Qt::transparent);
+
+                img = imgImpty;
+
+                break;
+            }
+            paint.setPen(pen);
+            //paint.setBrush(brush);
+            paint.drawRect(QRect(wr*i,hr*j,wr,hr));
+
+            paint.drawImage(QRect(wr * (i),hr * (j) ,wr,hr),img);
+        }
+
+    for(int i = 0; i < N_ROOM_X; i++)
+        for(int j = 0; j < N_ROOM_Y; j++)
+        {
+            int dir = game.getRoomDir(i,j);
+            switch (game.getRoom(i,j)) {
+            case CHARACTER:
+                pen.setColor(Qt::blue);
+//                brush.setColor(Qt::green);
+                if (dir == UP) img = imgCharUp;
+                if (dir == DOWN) img = imgCharDown;
+                if (dir == LEFT) img = imgCharLeft;
+                if (dir == RIGHT) img = imgCharRight;
+                if (dir == UP_LEFT) img = imgCharUpLeft;
+                if (dir == UP_RIGHT) img = imgCharUpRight;
+                if (dir == DOWN_LEFT) img = imgCharDownLeft;
+                if (dir == DOWN_RIGHT) img = imgCharDownRight;
+                if (dir == STILL) img = imgCharDown;
+                img = img.transformed(rot);
+                break;
+            case GUARD:
+                pen.setColor(Qt::red);
+//                brush.setColor(Qt::blue);
+                if (dir == UP) img = imgGuardUp;
+                if (dir == DOWN) img = imgGuardDown;
+                if (dir == LEFT) img = imgGuardLeft;
+                if (dir == RIGHT) img = imgGuardRight;
+                img = img.transformed(rot);
+                break;
+            default:
+                pen.setColor(Qt::transparent);
+                img = imgImpty;
+                break;
+
+            }
+            paint.setPen(pen);
+            //paint.setBrush(brush);
+            paint.drawRect(QRect(wr*i,hr*j,wr,hr));
+
+            paint.drawImage(QRect(wr * (i-1.5),hr * (j-1.5) ,wr*3,hr*3),img);
         }
 
 
@@ -200,6 +264,7 @@ void Screen::startT()
 void Screen::stopT()
 {
     t->stop();
+    emit stop();
     game.createGame();
     update();
 }

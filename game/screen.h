@@ -56,6 +56,7 @@ public:
 
 signals:
     void setTXT(QString str);
+    void stop();
 
 public slots:
     void startT();

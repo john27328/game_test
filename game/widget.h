@@ -43,7 +43,7 @@ public:
 public slots:
     void startT();
     void stopT();
-    void restart();
+    void stop();
     void t();
     void setCb(int k);
 };
