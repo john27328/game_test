@@ -17,10 +17,12 @@ Widget::Widget(QWidget *parent) :
     pbl->addWidget(pbStart);
     pbl->addWidget(pbStop);
 
-
     connect(pbStart, SIGNAL(clicked()), this, SLOT(startT()));
     connect(pbStop, SIGNAL(clicked()), this, SLOT(stopT()));
     connect(screen, SIGNAL(setTXT(QString)), gameTxt, SLOT(setText(QString)));
+
+    pbStop->setDisabled(1);
+    connect(screen, SIGNAL(stop()), this, SLOT(stop()));
 }
 
 Widget::~Widget()
@@ -30,25 +32,21 @@ Widget::~Widget()
 
 void Widget::startT()
 {
+    pbStop->setEnabled(1);
+    pbStart->setDisabled(1);
     screen->startT();
 }
 
 void Widget::stopT()
 {
+    pbStop->setDisabled(1);
+    pbStart->setEnabled(1);
     screen->stopT();
 }
 
-void Widget::restart()
+void Widget::stop()
 {
-
+    pbStop->setDisabled(1);
+    pbStart->setEnabled(1);
 }
 
-void Widget::t()
-{
-
-}
-
-void Widget::setCb(int k)
-{
-
-}

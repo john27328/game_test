@@ -1,11 +1,9 @@
 ﻿
 *.user*
-Dune/~$чет по компьютерному моделированию.docx
 *.stash
 *.o
 moc_*
 Makefile*
-*.autosave
 *.autosave
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/ui_widget.h
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/usersjohnappdatalocaltemptmpfuslfp
@@ -13,6 +11,5 @@ build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/usersjohnappdatalocaltemptmpy8kq
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Release/release/game.exe
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/game.exe
 *.user
-build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/qrc_sprites.cpp
 build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Release/release/qrc_sprites.cpp
-*.user
+build-game-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/qrc_sprites.cpp

@@ -87,8 +87,8 @@ void Game::createGame()
         room0[0][j] = room0[N_ROOM_X - 1][j] = WALL; //рисую стены
         roomDir[0][j] = RIGHT;
         roomDir[N_ROOM_X - 1][j] = LEFT;
-        if (rand()%99 <= GUN_DENSITY) guns.append(new Gun (0, j, RIGHT, rand()%GUNS_RATE)); // ставлю пушки
-        if (rand()%99 <= GUN_DENSITY) guns.append(new Gun (N_ROOM_X - 1, j, LEFT, rand()%GUNS_RATE)); // ставлю пушки
+        if (rand()%99 < GUN_DENSITY) guns.append(new Gun (0, j, RIGHT, rand()%GUNS_RATE)); // ставлю пушки
+        if (rand()%99 < GUN_DENSITY) guns.append(new Gun (N_ROOM_X - 1, j, LEFT, rand()%GUNS_RATE)); // ставлю пушки
     }
     roomDir[0][0] = DOWN_RIGHT;
     roomDir[0][N_ROOM_Y-1] = DOWN_LEFT;
@@ -107,17 +107,13 @@ void Game::createGame()
         for(int j = 1; j < N_ROOM_Y-1; j++)
         {
             if ((i > 3 || j > 3) && (i < N_ROOM_X - 2 || j < N_ROOM_Y -2))
-                if (rand()%99 <= GUARD_DENSITY) dangers.append(new Unit (GUARD, i,j, 1 + (rand()%4)));
+                if (rand()%99 < GUARD_DENSITY) dangers.append(new Unit (GUARD, i,j, 1 + (rand()%4)));
         }
 
     updateRoom();
 
 }
 
-void Game::createROOM()
-{
-
-}
 
 void Game::updateRoom()
 {
@@ -203,6 +199,10 @@ void Game::stepCharacter()
 
 void Game::pathCreate(int x, int y)
 {
+    //шаг за шагом проверяю все возможные сдвиги героя во все стороны,
+    //помечая пройденые клетки как помечанные и запоминая не тупиковые пути.
+    //Когда герой достигает точки назначения прерываю цикл и возвращаю последний путь.
+    //Если не осталось доступных путей, а точка не достигнута, возвращаю пустой путь.
     xTerminal = x; yTerminal = y;
     bool stop = 0;
     QList<QList<Unit>> pathList;

@@ -1,6 +1,10 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+/*****************
+ * главное окно  *
+ * **************/
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
@@ -43,9 +47,7 @@ public:
 public slots:
     void startT();
     void stopT();
-    void restart();
-    void t();
-    void setCb(int k);
+    void stop();
 };
 
 #endif // WIDGET_H
